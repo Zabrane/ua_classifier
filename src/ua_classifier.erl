@@ -1,3 +1,4 @@
+%% Copyright 2024 Aleph Archives
 %% Copyright 2012 Marc Worrell
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -22,7 +23,7 @@
     browser_classify/1,
     device_type/1,
     has_pointer_device/1,
-    
+    is_bot/1,
     test/0
 ]).
 -export_type([
@@ -71,6 +72,10 @@ classify(_UserAgent) ->
 browser_classify(_UserAgent) ->
     erlang:nif_error(ua_classifier_nif_not_loaded).
 
+
+%% @doc Check if the classified device is a bot
+is_bot(Ps) ->
+    proplists:get_value(is_crawler, Ps, false).
 
 %% @doc Map a list of user-agent properties (as returned by classify/1) to a simple device type atom.
 -spec device_type( Properties :: list() ) -> device_type().
